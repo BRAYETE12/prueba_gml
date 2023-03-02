@@ -21,7 +21,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form id="form" v-on:submit='Guardar' validate >
+            <form id="form" name="form" v-on:submit='Guardar' validate :class="es_ver" >
                 <div class="modal-body bg-modal p-4 px-5">
                 
                     <div class="row">
@@ -37,7 +37,7 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label>Cédula</label>
-                                <input type="text" class="form-control" v-model="usuario.cedula" placeholder="Cédula" required />
+                                <input type="text" class="form-control" v-model="usuario.cedula" name="cedula" placeholder="Cédula" required />
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -122,6 +122,7 @@
             paises:[],            
             usuario: {},
             errores: [],
+            es_ver: '',
             columns: [
                 { field: 'categoria', title: 'Categoría', formatter: (value, key, item) => { return value.nombre; } },
                 { field: 'cedula', title: 'Cédula' },
@@ -135,12 +136,16 @@
                     align: 'center',
                     printIgnore: true,
                     formatter: function () {
-                        return  '<button class="btn btn-sm btn-outline-info py-0 btnOpenModal mr-1"  > <i class="fas fa-edit"></i> </button>' +
+                        return  '<button class="btn btn-sm btn-outline-success py-0 btnOpenModalVer mr-1"  > <i class="fas fa-eye"></i> </button>' +
+                                '<button class="btn btn-sm btn-outline-info py-0 btnOpenModalEditar mr-1"  > <i class="fas fa-edit"></i> </button>' +
                                 '<button class="btn btn-sm btn-outline-danger py-0 btnEliminar" > <i class="fas fa-trash-alt"></i> </button>';
                     },
                     events: {
-                        'click .btnOpenModal': function (e, value, row) {
-                            app.openModal(row);
+                        'click .btnOpenModalVer': function (e, value, row) {
+                            app.openModal(true, row);
+                        },
+                        'click .btnOpenModalEditar': function (e, value, row) {
+                            app.openModal(false, row);
                         },
                         'click .btnEliminar': function (e, value, row) {
                             app.eliminar(row);
@@ -199,8 +204,9 @@
                     });
                 
             },  
-            openModal: function(item)
+            openModal: function(es_ver, item)
             {
+                this.es_ver = es_ver == true ? 'SoloVer' : '';
                 this.usuario = item  ? Object.assign({}, item) : {};
                 $("#modal").modal('show');
             },

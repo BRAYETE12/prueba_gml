@@ -60,6 +60,12 @@
         .vs__dropdown-toggle{
             height: calc(1.5em + 0.75rem + 2px) !important;
         }
+        .SoloVer .modal-body{
+            pointer-events: none !important;
+        }
+        .SoloVer .btn-primary{
+            display: none !important;
+        }
     </style>
 
 </head>

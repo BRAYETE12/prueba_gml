@@ -29,7 +29,7 @@ class PersonasController extends Controller
     {
         $persona = Persona::create($request->all());
         $persona->categoria = $persona->categoria;
-        NuevaPersona::dispatch($persona, ["counter" => 0]);
+        NuevaPersona::dispatch($persona);
         
         return ['success'=> true, 'registro'=> $persona ];
     }
@@ -45,7 +45,6 @@ class PersonasController extends Controller
     {
         $persona->fill($request->all())->save();
         $persona->categoria = $persona->categoria;
-        NuevaPersona::dispatch($persona);
         
         return ['success'=> true, 'registro'=> $persona ];
     }
